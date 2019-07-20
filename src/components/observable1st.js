@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Observable, Observer, interval, Subject, of, from, BehaviorSubject} from 'rxjs';//It converts static deta into Observables
-import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck, mergeMap, switchMap} from 'rxjs/operators';//
+import {Observable, Observer, interval, Subject, of, from, BehaviorSubject, throwError, concat} from 'rxjs';//It converts static deta into Observables
+import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck, mergeMap, switchMap, take} from 'rxjs/operators';//
 
 class Observable1St extends Component {
 
@@ -65,8 +65,15 @@ class Observable1St extends Component {
     };
     myFilter=()=>{
         let observable=interval(500);
-        observable.pipe(map(val=>val*2),filter(val=>val%2===0)).subscribe((value)=>{console.log(value)});
+        let subscription=observable.pipe(map(val=>val*2),filter(val=>val%2===0)).subscribe((value)=>{console.log(value)});
+        setTimeout(()=>{
+            subscription.unsubscribe()// stop the subscription after 5 seconds
+        },5000)
     };
+    useTake=()=>{
+        let observable=interval(500);
+        observable.pipe(filter(val=>val%2===0),take(3)).subscribe((value)=>{console.log(value)});
+    }
     onInputDebounceTime=(event)=>{
         //let subject=new Subject();// It need to be creatred inside the constructor like this.subject=new Subject// or else on each new key strock a new Subject instance will be created
         this.subject1.next(event.target.value);
@@ -136,16 +143,21 @@ class Observable1St extends Component {
         this.behavSub.next('Clicked');
         this.behavSub.subscribe((val)=>this.setState({clicked:val}));
     };
+    useThrowError=()=>{
+        const result = throwError(new Error('oops!'));
+        result.subscribe(x => console.log(x), e => console.error(e));
+    };
 
     render() {
         //this.my1stObservable();
         //this.myIntervalObservable();
         //this.mySubject();
         //this.myFilter();
+        //this.useTake()
         //this.onInputDebounceTime();
         //this.useReduce();
         //this.useScan();
-
+        this.useThrowError()
         return (
             <div>
                 <p>With debounceTime()</p>
@@ -161,7 +173,7 @@ class Observable1St extends Component {
                 <p>Fullname:{this.state.fullname}</p>
                 <button onClick={this.useSwitchMap}>Click to start useSwitchMap</button>
                 <hr/>
-                <button onClick={this.myBehaviorSubject}>Click to start useSwitchMap</button>
+                <button onClick={this.myBehaviorSubject}>Click to see BehaviorSubject</button>
                 <p>myBehaviorSubject: {this.state.clicked}</p>
             </div>
         );

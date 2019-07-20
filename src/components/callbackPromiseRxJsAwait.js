@@ -138,10 +138,10 @@ class CallbackPromiseRxJsAwait extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.onClickHandler_callBack}>Fetch User with => CallBacks</button><br/>
-                <button onClick={this.onClickHandler_promise}>Fetch User with => Promise</button><br/>
-                <button onClick={this.onClickHandler_await}>Fetch User with => Async Await</button><br/>
-                <button onClick={this.onClickHandler_rxjs}>Fetch User with => RxJs</button><br/>
+                <button onClick={this.onClickHandler_callBack}>Fetch User with => CallBacks</button>
+                <button onClick={this.onClickHandler_promise}>Fetch User with => Promise</button>
+                <button onClick={this.onClickHandler_await}>Fetch User with => Async Await</button>
+                <button onClick={this.onClickHandler_rxjs}>Fetch User with => RxJs</button>
                 <p>User name: {this.state.name}</p>
             </div>
         );
