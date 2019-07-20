@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Observable, Observer, interval, Subject, of} from 'rxjs';//It converts static deta into Observables
-import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce} from 'rxjs/operators';//
+import {Observable, Observer, interval, Subject, of, from} from 'rxjs';//It converts static deta into Observables
+import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck} from 'rxjs/operators';//
 
 class Observable1St extends Component {
 
@@ -8,6 +8,7 @@ class Observable1St extends Component {
         super(props);
         this.subject1=new Subject();// so that we can use debounceTime
         this.subject2=new Subject();
+        this.subject3=new Subject();
     }
 
     my1stObservable=()=>{
@@ -70,7 +71,11 @@ class Observable1St extends Component {
             (value)=>{console.log('with debounceTime()+distinctUntilChanged() next():',value)},
             (error)=>{console.log('with debounceTime() error():',error)},
             ()=>{console.log('complete()')},//cannot take argument
-        )
+        );
+
+        const source = of(1, 1, 2, 2, 3, 3);
+        //let source=from([event]);
+        source.pipe(distinctUntilChanged()).subscribe((value => console.log(value)))
     };
     useReduce=()=>{
         var observable=of(1, 2, 3, 4);
@@ -79,6 +84,11 @@ class Observable1St extends Component {
     useScan=()=>{
         var observable=of(1, 2, 3, 4);
         observable.pipe(scan((total, current)=>{return total+current},0)).subscribe((val)=>{console.log(val)})
+    };
+    usePluck=(event)=>{
+       this.subject3.next(event);
+
+       this.subject3.pipe(pluck('target', 'value'),debounceTime(2000), distinctUntilChanged()).subscribe((value => console.log(value)))
     };
 
 
@@ -89,13 +99,16 @@ class Observable1St extends Component {
         //this.myFilter();
         //this.onInputDebounceTime();
         //this.useReduce();
-        this.useScan();
+        //this.useScan();
+
         return (
             <div>
                 <p>With debounceTime()</p>
                 <input type="text" onChange={(e)=>this.onInputDebounceTime(e)}/><br/>
                 <p>With debounceTime()+distinctUntilChanged()</p>
                 <input type="text" onChange={(e)=>this.onInputDebounceTime_distinctUntilChanged(e)}/>
+                <p>With debounceTime()+distinctUntilChanged()+pluck()</p>
+                <input type="text" onChange={(e)=>this.usePluck(e)}/>
             </div>
         );
     }
