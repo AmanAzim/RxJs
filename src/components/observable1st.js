@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
 import {Observable, Observer, interval, Subject, of, from} from 'rxjs';//It converts static deta into Observables
-import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck} from 'rxjs/operators';//
+import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck, mergeMap} from 'rxjs/operators';//
 
 class Observable1St extends Component {
 
     constructor(props){
         super(props);
+
         this.subject1=new Subject();// so that we can use debounceTime
         this.subject2=new Subject();
         this.subject3=new Subject();
+
+        this.state={
+            firstName:'',
+            lastName:'',
+            fullname:''
+        }
     }
 
     my1stObservable=()=>{
@@ -87,8 +94,23 @@ class Observable1St extends Component {
     };
     usePluck=(event)=>{
        this.subject3.next(event);
-
        this.subject3.pipe(pluck('target', 'value'),debounceTime(2000), distinctUntilChanged()).subscribe((value => console.log(value)))
+    };
+    useMergeMap=(event)=>{
+        if(event.target.name==='fn'){
+            this.setState({firstName:event.target.value}, ()=>{
+                this.subject1.next(this.state.firstName);
+            });
+        }
+        if(event.target.name==='ln'){
+            this.setState({lastName:event.target.value}, ()=>{
+                this.subject2.next(this.state.lastName);
+            });
+        }
+
+        this.subject1.pipe(mergeMap(value1=>{
+            return this.subject2.pipe(map(value2=>value1+' '+value2))
+        })).subscribe((fullname)=>{this.setState({fullname:fullname})})
     };
 
 
@@ -108,7 +130,12 @@ class Observable1St extends Component {
                 <p>With debounceTime()+distinctUntilChanged()</p>
                 <input type="text" onChange={(e)=>this.onInputDebounceTime_distinctUntilChanged(e)}/>
                 <p>With debounceTime()+distinctUntilChanged()+pluck()</p>
-                <input type="text" onChange={(e)=>this.usePluck(e)}/>
+                <input type="text" onChange={this.usePluck}/>
+                <hr/>
+                <p>Write Full name:</p>
+                <input type="text" name="fn" onChange={this.useMergeMap}/>
+                <input type="text" name="ln" onChange={this.useMergeMap}/>
+                <p>Fullname:{this.state.fullname}</p>
             </div>
         );
     }
