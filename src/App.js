@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Observable1St from './components/observable1st'
+import CallbackPromiseRxJsAwait from './components/callbackPromiseRxJsAwait'
 
 import {from} from 'rxjs';//It converts static deta into Observables
 import {map, filter, scan} from 'rxjs/operators';//
@@ -55,6 +56,8 @@ class App extends Component {
            <hr/>
            <p>Result:{this.state.result}</p>
            <Observable1St />
+           <hr/>
+           <CallbackPromiseRxJsAwait />
         </div>
     );
   }
