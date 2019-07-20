@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Observable, Observer, interval, Subject, of, from, observable} from 'rxjs';//It converts static deta into Observables
+import {Observable, Observer, interval, Subject, of, from, BehaviorSubject} from 'rxjs';//It converts static deta into Observables
 import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck, mergeMap, switchMap} from 'rxjs/operators';//
 
 class Observable1St extends Component {
@@ -11,11 +11,16 @@ class Observable1St extends Component {
         this.subject2=new Subject();
         this.subject3=new Subject();
 
+
+
         this.state={
             firstName:'',
             lastName:'',
-            fullname:''
+            fullname:'',
+            clicked:'',
         }
+        this.behavSub=new BehaviorSubject('Not clicked');// setting a initial value with Objervable
+        this.behavSub.subscribe((val)=>this.state.clicked=val);
     }
 
     my1stObservable=()=>{
@@ -110,10 +115,10 @@ class Observable1St extends Component {
 
         this.subject1.pipe(mergeMap(value1=>{
             return this.subject2.pipe(map(value2=>value1+' '+value2))
-        })).subscribe((fullname)=>{this.setState({fullname:fullname})})
+        })).subscribe((fullname)=>{this.setState({fullname:fullname})});
     };
     useSwitchMap=()=> {
-        this.subject1.next('click')
+        this.subject1.next('click');
         let obs2 = interval(1000);
 
         //Problem
@@ -126,7 +131,11 @@ class Observable1St extends Component {
             return obs2
         })).subscribe((val) => console.log(val));
     };
-
+    myBehaviorSubject=()=>{
+        //this.behavSub.subscribe((val)=>console.log(val))
+        this.behavSub.next('Clicked');
+        this.behavSub.subscribe((val)=>this.setState({clicked:val}));
+    };
 
     render() {
         //this.my1stObservable();
@@ -151,6 +160,9 @@ class Observable1St extends Component {
                 <input type="text" name="ln" onChange={this.useMergeMap}/>
                 <p>Fullname:{this.state.fullname}</p>
                 <button onClick={this.useSwitchMap}>Click to start useSwitchMap</button>
+                <hr/>
+                <button onClick={this.myBehaviorSubject}>Click to start useSwitchMap</button>
+                <p>myBehaviorSubject: {this.state.clicked}</p>
             </div>
         );
     }
