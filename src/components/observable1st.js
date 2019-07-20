@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Observable, Observer, interval, Subject, of, from} from 'rxjs';//It converts static deta into Observables
-import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck, mergeMap} from 'rxjs/operators';//
+import {Observable, Observer, interval, Subject, of, from, observable} from 'rxjs';//It converts static deta into Observables
+import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck, mergeMap, switchMap} from 'rxjs/operators';//
 
 class Observable1St extends Component {
 
@@ -112,6 +112,20 @@ class Observable1St extends Component {
             return this.subject2.pipe(map(value2=>value1+' '+value2))
         })).subscribe((fullname)=>{this.setState({fullname:fullname})})
     };
+    useSwitchMap=()=> {
+        this.subject1.next('click')
+        let obs2 = interval(1000);
+
+        //Problem
+        /* this.subject1.subscribe((val)=>{
+              return obs2.subscribe((val)=>console.log(val))
+          });*/
+
+        //solution with switchMap()
+        this.subject1.pipe(switchMap(value => {
+            return obs2
+        })).subscribe((val) => console.log(val));
+    };
 
 
     render() {
@@ -136,6 +150,7 @@ class Observable1St extends Component {
                 <input type="text" name="fn" onChange={this.useMergeMap}/>
                 <input type="text" name="ln" onChange={this.useMergeMap}/>
                 <p>Fullname:{this.state.fullname}</p>
+                <button onClick={this.useSwitchMap}>Click to start useSwitchMap</button>
             </div>
         );
     }
