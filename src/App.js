@@ -2,6 +2,8 @@ import React, {Component, useRef} from 'react';
 import axios from 'axios';
 import Observable1St from './components/observable1st'
 import CallbackPromiseRxJsAwait from './components/callbackPromiseRxJsAwait'
+import ObservableUdemy from './components/observableUdemy'
+
 import {ajax} from 'rxjs/ajax'
 import {from, fromEvent, Observable} from 'rxjs';//It converts static deta into Observables
 import {map, filter, scan, switchMap} from 'rxjs/operators';//
@@ -58,6 +60,7 @@ class App extends Component {
   };
 
   render() {
+
     return (
         <div>
            <button onClick={this.clearResult}>Clear</button>
@@ -70,6 +73,8 @@ class App extends Component {
            <Observable1St />
            <hr/>
            <CallbackPromiseRxJsAwait />
+           <hr/>
+           <ObservableUdemy />
         </div>
     );
   }

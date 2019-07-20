@@ -147,6 +147,10 @@ class Observable1St extends Component {
         const result = throwError(new Error('oops!'));
         result.subscribe(x => console.log(x), e => console.error(e));
     };
+    useConcat=()=>{
+        const result = concat(of(1,2,3), throwError(new Error('oops!')));
+        result.subscribe(x => console.log(x), e => console.error(e));
+    }
 
     render() {
         //this.my1stObservable();
@@ -157,7 +161,8 @@ class Observable1St extends Component {
         //this.onInputDebounceTime();
         //this.useReduce();
         //this.useScan();
-        this.useThrowError()
+        //this.useThrowError()
+        //this.useConcat()
         return (
             <div>
                 <p>With debounceTime()</p>
