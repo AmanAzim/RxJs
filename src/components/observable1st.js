@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Observable, Observer, interval, Subject} from 'rxjs';//It converts static deta into Observables
-import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged} from 'rxjs/operators';//
+import {Observable, Observer, interval, Subject, of} from 'rxjs';//It converts static deta into Observables
+import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce} from 'rxjs/operators';//
 
 class Observable1St extends Component {
 
@@ -72,6 +72,15 @@ class Observable1St extends Component {
             ()=>{console.log('complete()')},//cannot take argument
         )
     };
+    useReduce=()=>{
+        var observable=of(1, 2, 3, 4);
+        observable.pipe(reduce((total, current)=>{return total+current},0)).subscribe((val)=>{console.log(val)})
+    };
+    useScan=()=>{
+        var observable=of(1, 2, 3, 4);
+        observable.pipe(scan((total, current)=>{return total+current},0)).subscribe((val)=>{console.log(val)})
+    };
+
 
     render() {
         //this.my1stObservable();
@@ -79,6 +88,8 @@ class Observable1St extends Component {
         //this.mySubject();
         //this.myFilter();
         //this.onInputDebounceTime();
+        //this.useReduce();
+        this.useScan();
         return (
             <div>
                 <p>With debounceTime()</p>
