@@ -16,7 +16,8 @@ class App extends Component {
 
       this.state={
           numbers:[1,2,3,4,5,6,7,8,9,10],
-            result:''
+          result:'',
+          joke:''
       };
   }
 
@@ -54,6 +55,9 @@ class App extends Component {
       }).catch(err=>console.log(err))
      */
      ajax.getJSON('http://api.icndb.com/jokes/random/').pipe(map(res=>({x:res.value.joke.length})),filter(obj=>obj.x<80),scan((prev, curr)=>prev.concat(curr),[])).subscribe((result)=>this.setState({result:JSON.stringify(result)}) );
+
+     const url='http://api.icndb.com/jokes/random/';
+     ajax({url}).subscribe(res => this.setState({joke:res.response.value.joke}))
   };
   btn_fromEvent=()=>{
       fromEvent(this.ajaxBtn.current, 'click').pipe(map(event=>event.type)).subscribe((v)=>console.log('ajaxBtn event:',v))
@@ -69,7 +73,8 @@ class App extends Component {
            <button onClick={this.ajaxRequest}>Ajax Request</button>
            <button ref={this.ajaxBtn} onClick={this.btn_fromEvent}>fromEvent test</button>
            <hr/>
-           <p>Result:{this.state.result}</p>
+           <p>Result:{this.state.result}</p><br/>
+           <p>Joke: {this.state.joke}</p>
            <Observable1St />
            <hr/>
            <CallbackPromiseRxJsAwait />

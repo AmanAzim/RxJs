@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Observable, Observer, interval, Subject, of, from, BehaviorSubject, throwError, concat} from 'rxjs';//It converts static deta into Observables
+import {Observable, Observer, interval, Subject, of, from, BehaviorSubject, throwError, concat, ReplaySubject} from 'rxjs';//It converts static deta into Observables
 import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck, mergeMap, switchMap, take} from 'rxjs/operators';//
 
 class Observable1St extends Component {
@@ -10,8 +10,6 @@ class Observable1St extends Component {
         this.subject1=new Subject();// so that we can use debounceTime
         this.subject2=new Subject();
         this.subject3=new Subject();
-
-
 
         this.state={
             firstName:'',
@@ -143,6 +141,13 @@ class Observable1St extends Component {
         this.behavSub.next('Clicked');
         this.behavSub.subscribe((val)=>this.setState({clicked:val}));
     };
+    myReplaySubject=()=>{
+        const sub=new ReplaySubject(2)
+        sub.next('ReplaySubject 1');
+        sub.next('ReplaySubject 2');
+        sub.next('ReplaySubject 3');
+        sub.subscribe((val)=>this.setState({clicked:val}));
+    }
     useThrowError=()=>{
         const result = throwError(new Error('oops!'));
         result.subscribe(x => console.log(x), e => console.error(e));
@@ -163,6 +168,7 @@ class Observable1St extends Component {
         //this.useScan();
         //this.useThrowError()
         //this.useConcat()
+        //this.myReplaySubject()
         return (
             <div>
                 <p>With debounceTime()</p>
