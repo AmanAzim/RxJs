@@ -1,11 +1,13 @@
-import React, {Component} from 'react';
-import {of, EMPTY, NEVER, timer, from, interval, Observable, Subject} from 'rxjs';//It converts static deta into Observables
-import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck, mergeMap, switchMap, take, tap} from 'rxjs/operators';//
+import React, {Component, createRef} from 'react';
+import {of, EMPTY, NEVER, timer, from, interval, Observable, Subject, fromEvent, range} from 'rxjs';//It converts static deta into Observables
+import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck, mergeMap, switchMap, take, tap, takeLast, takeWhile, takeUntil} from 'rxjs/operators';//
 
 
 class ObservableUdemy extends Component {
     constructor(){
         super()
+        this.tapBtn=React.createRef();
+        this.stopBtn=React.createRef();
         this.state={
             timer:0
         }
@@ -70,12 +72,47 @@ class ObservableUdemy extends Component {
         },500)
         //sub.subscribe((t)=>{console.log(t)})
     };
+    useTap=(e)=>{
+        console.log(this.tapBtn);
+        let taper=timer(2000,500).pipe(tap(console.log),tap(()=>this.tapBtn.current.disabled=false)).subscribe(v=>console.log('tap:',v))
+        console.log(e);
+
+        setTimeout(()=>{
+            taper.unsubscribe();
+            this.tapBtn.current.disabled=true;
+        },6000)
+    };
+    useTakeLast=()=>{
+        interval(500).pipe(take(10),takeLast(5)).subscribe((v)=>console.log(v), null, ()=>console.log('completed'))
+    };
+    useTakeWhile=()=>{
+         interval(500).pipe(takeWhile((v)=>v<5)).subscribe((v)=>console.log(v), null, ()=>console.log('completed'))
+    };
+    useTakeUniti=()=>{
+        let tm$=timer(3000).pipe(map(event=>event.type))
+            tm$.subscribe((v)=>console.log(v))
+        let int=interval(500).pipe(takeUntil(tm$)).subscribe((v)=>console.log(v), null, ()=>console.log('takeUntil completed'));
+    };
+    useFromEvent=()=>{
+        let fm$=fromEvent(this.stopBtn.current, 'click')
+        let int=interval(500).pipe(takeUntil(fm$)).subscribe((v)=>console.log(v), null, ()=>console.log('takeUntil completed'));
+    };
+    useRange=()=>{
+        let r=range(1, 10, )
+        r.pipe(scan((prev,curr)=>prev+curr, 0)).subscribe(v=>console.log('with Scan',v))
+        r.pipe(reduce((prev,curr)=>prev+curr, 0)).subscribe(v=>console.log('with Reduce',v))
+    };
 
     render() {
         //this.useTimer();
         //this.useFrom_Promise();
         //this.useInterval_clock()
         //this.useObservable_clock()
+        //this.useTap();
+        //this.useTakeLast();
+        //this.useTakeWhile();
+        //this.useTakeUniti();
+        this.useRange()
 
         return (
             <div>
@@ -84,6 +121,8 @@ class ObservableUdemy extends Component {
                 <hr/>
                 <button onClick={this.coldObservable}>start Cold observable</button>
                 <button onClick={this.hotObservable}>start Hot observable</button>
+                <button onClick={(e)=>this.useTap(e)} ref={this.tapBtn} >Tap</button>
+                <button ref={this.stopBtn} onClick={this.useFromEvent}>FromEvent</button>
             </div>
         );
     }

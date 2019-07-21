@@ -8,6 +8,8 @@ import {ajax} from 'rxjs/ajax'
 import {from, fromEvent, Observable} from 'rxjs';//It converts static deta into Observables
 import {map, filter, scan, switchMap} from 'rxjs/operators';//
 
+//http://reactivex.io/documentation/operators.html#tree//To find the right Operator
+
 class App extends Component {
 
   constructor(){
