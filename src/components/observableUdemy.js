@@ -1,6 +1,25 @@
 import React, {Component, createRef} from 'react';
 import {of, EMPTY, NEVER, timer, from, interval, Observable, Subject, fromEvent, range} from 'rxjs';//It converts static deta into Observables
-import {map, filter, scan, throttleTime, debounceTime, distinctUntilChanged, reduce, pluck, mergeMap, switchMap, take, tap, takeLast, takeWhile, takeUntil} from 'rxjs/operators';//
+import {
+    map,
+    filter,
+    scan,
+    throttleTime,
+    debounceTime,
+    distinctUntilChanged,
+    reduce,
+    pluck,
+    mergeMap,
+    switchMap,
+    take,
+    tap,
+    takeLast,
+    takeWhile,
+    takeUntil,
+    pairwise,
+    concatMap,
+    startWith
+} from 'rxjs/operators';//
 
 
 class ObservableUdemy extends Component {
@@ -8,6 +27,7 @@ class ObservableUdemy extends Component {
         super()
         this.tapBtn=React.createRef();
         this.stopBtn=React.createRef();
+        this.mouseSub=new Subject()
         this.state={
             timer:0
         }
@@ -102,6 +122,28 @@ class ObservableUdemy extends Component {
         r.pipe(scan((prev,curr)=>prev+curr, 0)).subscribe(v=>console.log('with Scan',v))
         r.pipe(reduce((prev,curr)=>prev+curr, 0)).subscribe(v=>console.log('with Reduce',v))
     };
+    usePairWise=(e)=>{
+        //console.log(e.clientX, e.clientY)
+        this.mouseSub.next(e);
+        this.mouseSub.pipe(pairwise(),map(pair =>{return [{cliX:pair[0].clientX, cliY:pair[0].clientY}, {cliX:pair[1].clientX, cliY:pair[1].clientY}]})).subscribe((arr)=>console.log(`coordinate sets: firstXY(${arr[0].cliX},${arr[0].cliY})-secondXY(${arr[1].cliX},${arr[1].cliY})`))
+    };
+    useConcatMap=()=>{
+        let obs1=interval(1000).pipe(take(5))
+        let obs2=interval(100).pipe(take(5));
+        obs1.pipe(concatMap(val1=>{
+            return obs2.pipe(map(val2=>({val1:val1,val2:val2})))
+        })).subscribe(v=>console.log(v))
+    };
+    useSwitchMap=()=>{
+        let obs1=interval(100).pipe(take(10))
+        let obs2=interval(100).pipe(take(5))
+        obs1.pipe(switchMap(val1=>{
+            return obs2.pipe(map(val2=>({val1:val1,val2:val2})))
+        })).subscribe(v=>console.log(v),null,()=>console.log('first obs completed'))
+    };
+    useStartWith=()=>{
+        interval(100).pipe(startWith('starting with startWith'), take(5)).subscribe((v)=>console.log(v))
+    };
 
     render() {
         //this.useTimer();
@@ -112,7 +154,10 @@ class ObservableUdemy extends Component {
         //this.useTakeLast();
         //this.useTakeWhile();
         //this.useTakeUniti();
-        this.useRange()
+        //this.useRange();
+        //this.useConcatMap()
+        //this.useSwitchMap()
+        //this.useStartWith()
 
         return (
             <div>
@@ -123,6 +168,7 @@ class ObservableUdemy extends Component {
                 <button onClick={this.hotObservable}>start Hot observable</button>
                 <button onClick={(e)=>this.useTap(e)} ref={this.tapBtn} >Tap</button>
                 <button ref={this.stopBtn} onClick={this.useFromEvent}>FromEvent</button>
+                <div style={{width: 200, height: 100, backgroundColor:'green'}} onMouseMove={this.usePairWise}>Mouse move capture</div>
             </div>
         );
     }
