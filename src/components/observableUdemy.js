@@ -20,7 +20,7 @@ import {
     concatMap,
     startWith
 } from 'rxjs/operators';//
-
+import {filterEvenNum, powerOf, multiplyBy, filterObjWithNum, filterNumbers, obsHistory} from './customOperators/customOperators';
 
 class ObservableUdemy extends Component {
     constructor(){
@@ -144,6 +144,14 @@ class ObservableUdemy extends Component {
     useStartWith=()=>{
         interval(100).pipe(startWith('starting with startWith'), take(5)).subscribe((v)=>console.log(v))
     };
+    useCustomOperator1=()=>{
+        interval(100).pipe(take(20),filterEvenNum(), powerOf(2), multiplyBy(2)).subscribe(v=>console.log(v))
+    };
+    useCustoomOperator2=()=>{
+        of({foo:1, boo:'Aman', goo:2}).pipe(filterObjWithNum()).subscribe(v=>console.log(v));
+        from([1,2,'3','4']).pipe(filterNumbers()).subscribe(v=>console.log(v));
+        interval(500).pipe(take(10),obsHistory()).subscribe(console.log)
+    }
 
     render() {
         //this.useTimer();
@@ -158,6 +166,8 @@ class ObservableUdemy extends Component {
         //this.useConcatMap()
         //this.useSwitchMap()
         //this.useStartWith()
+        //this.useCustomOperator1();
+        this.useCustoomOperator2();
 
         return (
             <div>
