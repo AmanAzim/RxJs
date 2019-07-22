@@ -1,25 +1,7 @@
 import React, {Component, createRef} from 'react';
-import {of, EMPTY, NEVER, timer, from, interval, Observable, Subject, fromEvent, range} from 'rxjs';//It converts static deta into Observables
-import {
-    map,
-    filter,
-    scan,
-    throttleTime,
-    debounceTime,
-    distinctUntilChanged,
-    reduce,
-    pluck,
-    mergeMap,
-    switchMap,
-    take,
-    tap,
-    takeLast,
-    takeWhile,
-    takeUntil,
-    pairwise,
-    concatMap,
-    startWith
-} from 'rxjs/operators';//
+import {ajax} from 'rxjs/ajax'
+import {of, EMPTY, NEVER, timer, from, interval, Observable, Subject, fromEvent, range, throwError} from 'rxjs';//It converts static deta into Observables
+import {map, retry, retryWhen, filter, scan, throttleTime, debounceTime, distinctUntilChanged, catchError, reduce, pluck, mergeMap, switchMap, take, tap, takeLast, takeWhile, takeUntil, pairwise, concatMap, startWith} from 'rxjs/operators';//
 import {filterEvenNum, powerOf, multiplyBy, filterObjWithNum, filterNumbers, obsHistory} from './customOperators/customOperators';
 
 class ObservableUdemy extends Component {
@@ -151,8 +133,20 @@ class ObservableUdemy extends Component {
         of({foo:1, boo:'Aman', goo:2}).pipe(filterObjWithNum()).subscribe(v=>console.log(v));
         from([1,2,'3','4']).pipe(filterNumbers()).subscribe(v=>console.log(v));
         interval(500).pipe(take(10),obsHistory()).subscribe(console.log)
-    }
-
+    };
+    useCatchError=()=>{
+        let interV=interval(500).pipe(mergeMap(()=>throwError(new Error('Opps its 4'))), catchError(err => of(`${err} is catched`))).subscribe((v)=>console.log(v), (err)=>console.log(err), ()=>console.log('complete'))
+        interval(500).pipe(mergeMap(()=>{
+                return throwError(new Error('Opps its 5')).pipe(catchError(err => of(`${err} is catched`)))
+            })).subscribe((v)=>console.log(v), (err)=>console.log(err), ()=>console.log('complete'))
+    };
+    useRetry=()=>{
+        ajax.get('https://lala').pipe(retry(3)).subscribe((v)=>console.log(v), (err)=>console.log(err), ()=>console.log('complete'))
+    };
+    useRetryWhen=()=>{
+        let aj=ajax.get('https://lala').pipe( retryWhen(err=>interval(1000).pipe(take(3)) ))
+            aj.subscribe((v)=>console.log(v), (err)=>console.log(err), ()=>console.log('complete'))
+    };
     render() {
         //this.useTimer();
         //this.useFrom_Promise();
@@ -167,7 +161,8 @@ class ObservableUdemy extends Component {
         //this.useSwitchMap()
         //this.useStartWith()
         //this.useCustomOperator1();
-        this.useCustoomOperator2();
+        //this.useCustoomOperator2();
+        //this.useCatchError()
 
         return (
             <div>
@@ -179,6 +174,8 @@ class ObservableUdemy extends Component {
                 <button onClick={(e)=>this.useTap(e)} ref={this.tapBtn} >Tap</button>
                 <button ref={this.stopBtn} onClick={this.useFromEvent}>FromEvent</button>
                 <div style={{width: 200, height: 100, backgroundColor:'green'}} onMouseMove={this.usePairWise}>Mouse move capture</div>
+                <button onClick={this.useRetry}>Retry ajax</button>
+                <button onClick={this.useRetryWhen}>RetryWhen ajax</button>
             </div>
         );
     }
