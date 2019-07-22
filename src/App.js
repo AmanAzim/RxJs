@@ -3,6 +3,7 @@ import axios from 'axios';
 import Observable1St from './components/observable1st'
 import CallbackPromiseRxJsAwait from './components/callbackPromiseRxJsAwait'
 import ObservableUdemy from './components/observableUdemy'
+import SearchGitHub from './components/gitHubSearch/searchGithub'
 
 import {ajax} from 'rxjs/ajax'
 import {from, fromEvent, Observable} from 'rxjs';//It converts static deta into Observables
@@ -82,6 +83,8 @@ class App extends Component {
            <CallbackPromiseRxJsAwait />
            <hr/>
            <ObservableUdemy />
+           <hr/>
+           <SearchGitHub/>
         </div>
     );
   }
