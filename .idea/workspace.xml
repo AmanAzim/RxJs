@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0ae4408-a623-4136-8e16-c4af08055670" name="Default Changelist" comment="&quot;custom Operator&quot;">
+    <list default="true" id="e0ae4408-a623-4136-8e16-c4af08055670" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/rxjsManageState/appRxjs4.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/rxjsManageState/appRxjs4.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/rxjsManageState/withObservableAsyncStream4.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/rxjsManageState/withObservableAsyncStream4.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +15,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/rxjsManageState/appRxjs4.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-389">
+            <state relative-caret-position="272">
               <caret line="16" column="12" lean-forward="true" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
@@ -208,7 +206,7 @@
       <workItem from="1563669701246" duration="324000" />
       <workItem from="1563709652364" duration="22046000" />
       <workItem from="1563791059540" duration="28228000" />
-      <workItem from="1563889674516" duration="24117000" />
+      <workItem from="1563889674516" duration="24208000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Observable, Observer, subscription, Subject, map, filter, debounceTime&quot;">
       <created>1563579599952</created>
@@ -357,17 +355,23 @@
       <option name="project" value="LOCAL" />
       <updated>1563914269833</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="&quot;Managing Async state with RxJS&quot;">
+      <created>1563922644766</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1563922644766</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126102000" />
+    <option name="totallyTimeSpent" value="126193000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18003026" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2579425" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -440,7 +444,8 @@
     <MESSAGE value="&quot;Manage state with RxJS&quot;" />
     <MESSAGE value="&quot;Combine multiple Observables to manage state&quot;" />
     <MESSAGE value="&quot;manage Async state with RxJS&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;manage Async state with RxJS&quot;" />
+    <MESSAGE value="&quot;Managing Async state with RxJS&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;Managing Async state with RxJS&quot;" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/react.d.ts">
@@ -651,7 +656,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/rxjsManageState/appRxjs4.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-389">
+        <state relative-caret-position="272">
           <caret line="16" column="12" lean-forward="true" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
