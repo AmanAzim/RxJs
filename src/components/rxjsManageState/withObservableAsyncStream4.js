@@ -6,7 +6,7 @@ const withObservableAsyncStream4=(combinedObservables, triggers)=>(WrappedCompon
 
         componentDidMount(){
             this.subscription=combinedObservables.subscribe((newStateValues)=>{ //new values will come from the wrappedComponents input field as we are using the function onChangeQuery:()=>observable.next() to collect the onChange input events. the onChhangeQuery() is passed as a property of Object called "triggers"
-                this.setState({jokes:newStateValues})
+                this.setState({...newStateValues})
             });
         }
         componentWillUnmount(){
