@@ -6,6 +6,7 @@ import ObservableUdemy from './components/observableUdemy'
 import SearchGitHub from './components/gitHubSearch/searchGithub'
 import AppRxjs1 from './components/rxjsManageState/appRxjs1'
 import AppRxjs2 from './components/rxjsManageState/appRxjs2'
+import AppRxjs3 from './components/rxjsManageState/appRxjs3'
 
 import {ajax} from 'rxjs/ajax'
 import {from, fromEvent, Observable} from 'rxjs';//It converts static deta into Observables
@@ -91,6 +92,8 @@ class App extends Component {
            <AppRxjs1/>
            <hr/>
            <AppRxjs2/>
+           <hr/>
+           <AppRxjs3/>
         </div>
     );
   }

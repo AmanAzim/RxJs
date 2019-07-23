@@ -10,8 +10,8 @@ const withObservableStream2=(observable, triggers, initialState)=>(WrappedCompon
             }
         }
         componentDidMount(){
-            this.subscription=observable.subscribe((newStatreValue)=>{ //new values will come from the wrappedComponents input field as we are using the function onChangeQuery:()=>observable.next() to collect the onChange input events. the onChhangeQuery() is passed as a property of Object called "triggers"
-                this.setState({...newStatreValue})
+            this.subscription=observable.subscribe((newStateValue)=>{ //new values will come from the wrappedComponents input field as we are using the function onChangeQuery:()=>observable.next() to collect the onChange input events. the onChhangeQuery() is passed as a property of Object called "triggers"
+                this.setState({...newStateValue})
             });
         }
         componentWillUnmount(){
