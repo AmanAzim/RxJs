@@ -2,10 +2,11 @@ import React from 'react';
 import withcombinedObservableStream3 from './withcombinedObservableStream3';
 import {BehaviorSubject, combineLatest} from 'rxjs'
 
+
 const btnValues={
         good:'Good',
         bad:'Bad'
-    };
+};
 
 const AppRxjs3 = ({course, status, registration, onChangeSubject, onClickStatus, onRegistration}) => {
 
@@ -19,7 +20,7 @@ const AppRxjs3 = ({course, status, registration, onChangeSubject, onClickStatus,
                 ))}
                 <button onClick={()=>onRegistration(!registration)}>{registration? 'Unregister':'Register'}</button>
             </div>
-             <p>{`Course: ${course} it is ${status} and I have ${registration? 'registered':'unregistered'}`}</p>
+            <p>{`Course: ${course} it is ${status} and I have ${registration? 'registered':'unregistered'}`}</p>
         </div>
     );
 };
@@ -37,4 +38,3 @@ export default withcombinedObservableStream3(     //combineLatest combines the l
     onRegistration:(value)=>registration$.next(value)
 })(AppRxjs3);
 
-//combineLatest(course$, status$, registration$, (course, status, registration)=>({course, status, registration})),
