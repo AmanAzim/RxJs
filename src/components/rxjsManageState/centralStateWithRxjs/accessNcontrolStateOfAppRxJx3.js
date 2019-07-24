@@ -17,6 +17,9 @@ class AccessNcontrolStateOfAppRxJx3 extends Component {
         this.subscription=combineLatest(course$, status$, registration$, (course, status, registration)=>({course:course, status:status, registration:registration}))
             .subscribe((value)=>this.setState({...value}), (e)=>console.log(e));
     }
+    componentWillUnmount() {
+        this.subscription.unsubscribe();
+    }
 
     render() {
         return (

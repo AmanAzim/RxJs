@@ -155,7 +155,8 @@ class Observable1St extends Component {
     useConcat=()=>{
         const result = concat(of(1,2,3), throwError(new Error('oops!')));
         result.subscribe(x => console.log(x), e => console.error(e));
-    }
+    };
+    
 
     render() {
         //this.my1stObservable();
